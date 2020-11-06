@@ -12,14 +12,9 @@
 
 #include "gfx/gfx_pc.h"
 #include "gfx/gfx_opengl.h"
-#include "gfx/gfx_direct3d12.h"
-#include "gfx/gfx_glx.h"
 #include "gfx/gfx_sdl.h"
 
 #include "audio/audio_api.h"
-#include "audio/audio_wasapi.h"
-#include "audio/audio_pulse.h"
-#include "audio/audio_alsa.h"
 #include "audio/audio_sdl.h"
 #include "audio/audio_null.h"
 
@@ -133,39 +128,13 @@ void main_func(void) {
     emscripten_set_main_loop(em_main_loop, 0, 0);
     request_anim_frame(on_anim_frame);
 #endif
-
-#if (defined(_WIN32) || defined(_WIN64))
-    wm_api = &gfx_dxgi_api;
-    rendering_api = &gfx_direct3d12_api;
-#elif defined(__linux__)
-    wm_api = &gfx_glx;
-    rendering_api = &gfx_opengl_api;
-#else
     wm_api = &gfx_sdl;
     rendering_api = &gfx_opengl_api;
-#endif
     gfx_init(wm_api, rendering_api);
-    
-#if HAVE_WASAPI
-    if (audio_api == NULL && audio_wasapi.init()) {
-        audio_api = &audio_wasapi;
-    }
-#endif
-#if HAVE_PULSE_AUDIO
-    if (audio_api == NULL && audio_pulse.init()) {
-        audio_api = &audio_pulse;
-    }
-#endif
-#if HAVE_ALSA
-    if (audio_api == NULL && audio_alsa.init()) {
-        audio_api = &audio_alsa;
-    }
-#endif
-#ifdef TARGET_WEB
-    if (audio_api == NULL && audio_sdl.init()) {
+
+    if (audio_api == NULL && audio_sdl.init()) 
         audio_api = &audio_sdl;
-    }
-#endif
+
     if (audio_api == NULL) {
         audio_api = &audio_null;
     }
@@ -187,15 +156,7 @@ void main_func(void) {
 #endif
 }
 
-#if defined(_WIN32) || defined(_WIN64)
-#include <windows.h>
-int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR pCmdLine, int nCmdShow) {
-    main_func();
-    return 0;
-}
-#else
 int main(int argc, char *argv[]) {
     main_func();
     return 0;
 }
-#endif

@@ -1,5 +1,3 @@
-#if TARGET_WEB
-
 #ifdef __MINGW32__
 #define FOR_WINDOWS 1
 #else
@@ -7,10 +5,11 @@
 #endif
 
 #if FOR_WINDOWS
+#define GLEW_STATIC
 #include <GL/glew.h>
-#include "SDL.h"
+#include <SDL2/SDL.h>
 #define GL_GLEXT_PROTOTYPES 1
-#include "SDL_opengl.h"
+#include <SDL2/SDL_opengl.h>
 #else
 #include <SDL2/SDL.h>
 #define GL_GLEXT_PROTOTYPES 1
@@ -86,7 +85,7 @@ static void gfx_sdl_init(void) {
     //SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 4);
     
     wnd = SDL_CreateWindow("Super Mario 64 PC-Port", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-            DESIRED_SCREEN_WIDTH, DESIRED_SCREEN_HEIGHT, SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
+            DESIRED_SCREEN_WIDTH, DESIRED_SCREEN_HEIGHT, SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
     
     SDL_GL_CreateContext(wnd);
     SDL_GL_SetSwapInterval(2); // TODO 0, 1 or 2 or remove this line
@@ -106,14 +105,20 @@ static void gfx_sdl_init(void) {
 }
 
 static void gfx_sdl_main_loop(void (*run_one_game_iter)(void)) {
+    int t;
     while (1) {
+        t = SDL_GetTicks();
         run_one_game_iter();
+        t = SDL_GetTicks() - t;
+
+        if (t < 1000 / 30) {
+            SDL_Delay ((1000 / 30) - t);
+        }
     }
 }
 
 static void gfx_sdl_get_dimensions(uint32_t *width, uint32_t *height) {
-    *width = DESIRED_SCREEN_WIDTH;
-    *height = DESIRED_SCREEN_HEIGHT;
+    SDL_GetWindowSize(wnd, width, height);
 }
 
 static int translate_scancode(int scancode) {
@@ -176,5 +181,3 @@ struct GfxWindowManagerAPI gfx_sdl = {
     gfx_sdl_swap_buffers_end,
     gfx_sdl_get_time
 };
-
-#endif

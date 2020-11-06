@@ -1,10 +1,4 @@
-#if !defined(_WIN32) && !defined(_WIN64)
-
-#ifdef __MINGW32__
-#include "SDL.h"
-#else
-#include "SDL2/SDL.h"
-#endif
+#include <SDL2/SDL.h>
 
 #include "audio_api.h"
 
@@ -52,5 +46,3 @@ struct AudioAPI audio_sdl = {
     audio_sdl_get_desired_buffered,
     audio_sdl_play
 };
-
-#endif

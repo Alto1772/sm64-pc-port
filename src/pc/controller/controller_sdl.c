@@ -1,5 +1,3 @@
-#if !defined(_WIN32) && !defined(_WIN64)
-
 #include <stdio.h>
 #include <stdint.h>
 #include <stdbool.h>
@@ -98,5 +96,3 @@ struct ControllerAPI controller_sdl = {
     controller_sdl_init,
     controller_sdl_read
 };
-
-#endif

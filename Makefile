@@ -18,7 +18,7 @@ COMPARE ?= 1
 # If NON_MATCHING is 1, define the NON_MATCHING and AVOID_UB macros when building (recommended)
 NON_MATCHING ?= 0
 # Build for the N64 (turn this off for ports)
-TARGET_N64 ?= 1
+TARGET_N64 ?= 0
 # Build for Emscripten/WebGL
 TARGET_WEB ?= 0
 
@@ -192,7 +192,7 @@ MIPSISET := -mips2 -32
 ifeq ($(VERSION),eu)
   OPT_FLAGS := -O2
 else
-  OPT_FLAGS := -g
+  OPT_FLAGS := -g -m32
 endif
 
 ifeq ($(TARGET_WEB),1)
@@ -401,9 +401,9 @@ ifeq ($(TARGET_WEB),1)
 LDFLAGS := -lm -lGL -lSDL2 -no-pie -s TOTAL_MEMORY=20MB -g4 --source-map-base http://localhost:8080/ -s "EXTRA_EXPORTED_RUNTIME_METHODS=['callMain']"
 else
 ifeq ($(WINDOWS_BUILD),1)
-LDFLAGS := -lm -no-pie src/pc/gfx/dxsdk/`cat $(ENDIAN_BITWIDTH) | tr ' ' '\n' | tail -1`/*.lib -lxinput9_1_0 -lOle32 -static -mwindows
+LDFLAGS := -m32 -march=i686 -Llib -lpthread -lglew32 `sdl2-config --static-libs` -lm -lglu32 -lsetupapi -ldinput8 -luser32 -lgdi32 -limm32 -lole32 -loleaut32 -lshell32 -lwinmm -lversion -luuid -lopengl32 -no-pie -static
 else
-LDFLAGS := -lm -lGL `sdl2-config --libs` -no-pie -lpthread `pkg-config --libs libusb-1.0 glfw3` -lasound -lX11 -lXrandr -lpulse
+LDFLAGS := -m32 -march=i686 -lm -lGL `sdl2-config --libs` -no-pie -lpthread `pkg-config --libs libusb-1.0 glfw3` -lasound -lX11 -lXrandr -lpulse
 endif
 endif
 

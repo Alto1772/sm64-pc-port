@@ -1,5 +1,3 @@
-#if !defined(_WIN32) && !defined(_WIN64)
-
 #include <stdint.h>
 #include <stdbool.h>
 
@@ -15,10 +13,11 @@
 #endif
 
 #if FOR_WINDOWS
+#define GLEW_STATIC
 #include <GL/glew.h>
-#include "SDL.h"
+#include <SDL2/SDL.h>
 #define GL_GLEXT_PROTOTYPES 1
-#include "SDL_opengl.h"
+#include <SDL2/SDL_opengl.h>
 #else
 #include <SDL2/SDL.h>
 #define GL_GLEXT_PROTOTYPES 1
@@ -502,5 +501,3 @@ struct GfxRenderingAPI gfx_opengl_api = {
     gfx_opengl_init,
     gfx_opengl_start_frame
 };
-
-#endif
