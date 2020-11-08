@@ -438,11 +438,6 @@ void envfx_bubbles_update_switch(s32 mode, Vec3s camTo, Vec3s vertex1, Vec3s ver
  * 'index'. The 3 input vertices represent the roated triangle around (0,0,0)
  * that will be translated to bubble positions to draw the bubble image
  */
-#if defined(VERSION_EU) && !defined(NON_MATCHING)
-void append_bubble_vertex_buffer(Gfx *gfx, s32 index, Vec3s vertex1, Vec3s vertex2, Vec3s vertex3,
-                                 Vtx *template);
-GLOBAL_ASM("asm/non_matchings/append_bubble_vertex_buffer_eu.s")
-#else
 void append_bubble_vertex_buffer(Gfx *gfx, s32 index, Vec3s vertex1, Vec3s vertex2, Vec3s vertex3,
                                  Vtx *template) {
     s32 i = 0;
@@ -471,7 +466,6 @@ void append_bubble_vertex_buffer(Gfx *gfx, s32 index, Vec3s vertex1, Vec3s verte
 
     gSPVertex(gfx, VIRTUAL_TO_PHYSICAL(vertBuf), 15, 0);
 }
-#endif
 
 /**
  * Appends to the enfvx display list a command setting the appropriate texture

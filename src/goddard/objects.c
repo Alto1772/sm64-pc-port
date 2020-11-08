@@ -343,9 +343,7 @@ struct ObjZone *make_zone(struct ObjGroup *a0, struct GdPlaneF *a1, struct ObjGr
     newZone->unk30 = a0;
 
 //! @bug Created `ObjZone` is not returned
-#ifdef AVOID_UB
     return newZone;
-#endif
 }
 
 /* @ 22AF70 for 0x60 */
@@ -1024,9 +1022,7 @@ struct GdObj *UnknownRecursive8017E2F0(struct GdObj *obj, enum ObjTypeFlag type)
     }
 
 //! @bug Nothing is returned if a GdObj of `type` is not found
-#ifdef AVOID_UB
     return NULL;
-#endif
 }
 
 /* @ 22CBB0 for 0x1A4; orig name: func8017E3E0 */
@@ -1044,11 +1040,7 @@ s32 apply_to_obj_types_in_group(s32 types, applyproc_t fn, struct ObjGroup *grou
     //! @bug When `group` pointer is NULL, garbage is returned, not the
     //!      count of `fn` calls
     if (group == NULL) {
-#ifdef AVOID_UB
         return fnAppliedCount;
-#else
-        return;
-#endif
     }
 
     if (group->linkType & 1) { // compressed data, not an Obj

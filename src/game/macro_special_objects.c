@@ -328,7 +328,6 @@ void spawn_special_objects(s16 areaIndex, s16 **specialObjList) {
     }
 }
 
-#ifndef TARGET_N64
 u32 get_special_objects_size(s16 *data) {
     s16 *startPos = data;
     s32 numOfSpecialObjects;
@@ -372,4 +371,3 @@ u32 get_special_objects_size(s16 *data) {
 
     return data - startPos;
 }
-#endif

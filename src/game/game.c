@@ -290,16 +290,11 @@ void setup_game_memory(void) {
     load_segment_decompress(2, _segment2_mio0SegmentRomStart, _segment2_mio0SegmentRomEnd);
 }
 
-#ifndef TARGET_N64
 static struct LevelCommand *levelCommandAddr;
-#endif
 
 // main game loop thread. runs forever as long as the game
 // continues.
 void thread5_game_loop(UNUSED void *arg) {
-#ifdef TARGET_N64
-    struct LevelCommand *levelCommandAddr;
-#endif
 
     setup_game_memory();
     init_controllers();
@@ -313,24 +308,14 @@ void thread5_game_loop(UNUSED void *arg) {
     play_music(2, SEQUENCE_ARGS(0, SEQ_SOUND_PLAYER), 0);
     set_sound_mode(save_file_get_sound_mode());
 
-#ifdef TARGET_N64
-    func_80247ED8();
-
-    while (1) {
-#else
     gGlobalTimer++;
 }
 
 void game_loop_one_iteration(void) {
-#endif
         // if the reset timer is active, run the process to reset the game.
         if (gResetTimer) {
             func_80247D84();
-#ifdef TARGET_N64
-            continue;
-#else
             return;
-#endif
         }
         profiler_log_thread5_time(THREAD5_START);
 
@@ -352,7 +337,4 @@ void game_loop_one_iteration(void) {
             // amount of free space remaining.
             print_text_fmt_int(180, 20, "BUF %d", gGfxPoolEnd - (u8 *) gDisplayListHead);
         }
-#ifdef TARGET_N64
-    }
-#endif
 }

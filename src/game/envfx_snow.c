@@ -349,10 +349,6 @@ void rotate_triangle_vertices(Vec3s vertex1, Vec3s vertex2, Vec3s vertex3, s16 p
  * around (0,0,0) that will be translated to snowflake positions to draw the
  * snowflake image.
  */
-#if defined(VERSION_EU) && !defined(NON_MATCHING)
-void append_snowflake_vertex_buffer(Gfx *gfx, s32 index, Vec3s vertex1, Vec3s vertex2, Vec3s vertex3);
-GLOBAL_ASM("asm/non_matchings/append_snowflake_vertex_buffer_eu.s")
-#else
 void append_snowflake_vertex_buffer(Gfx *gfx, s32 index, Vec3s vertex1, Vec3s vertex2, Vec3s vertex3) {
     s32 i = 0;
     Vtx *vertBuf = (Vtx *) alloc_display_list(15 * sizeof(Vtx));
@@ -380,7 +376,6 @@ void append_snowflake_vertex_buffer(Gfx *gfx, s32 index, Vec3s vertex1, Vec3s ve
 
     gSPVertex(gfx, VIRTUAL_TO_PHYSICAL(vertBuf), 15, 0);
 }
-#endif
 
 /**
  * Updates positions of snow particles and returns a pointer to a display list

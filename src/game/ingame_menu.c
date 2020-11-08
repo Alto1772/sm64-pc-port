@@ -127,29 +127,7 @@ void create_dl_identity_matrix(void) {
         return;
     }
 
-#ifdef TARGET_N64
-    matrix->m[0][0] = 0x00010000;
-    matrix->m[1][0] = 0x00000000;
-    matrix->m[2][0] = 0x00000000;
-    matrix->m[3][0] = 0x00000000;
-
-    matrix->m[0][1] = 0x00000000;
-    matrix->m[1][1] = 0x00010000;
-    matrix->m[2][1] = 0x00000000;
-    matrix->m[3][1] = 0x00000000;
-
-    matrix->m[0][2] = 0x00000001;
-    matrix->m[1][2] = 0x00000000;
-    matrix->m[2][2] = 0x00000000;
-    matrix->m[3][2] = 0x00000000;
-
-    matrix->m[0][3] = 0x00000000;
-    matrix->m[1][3] = 0x00000001;
-    matrix->m[2][3] = 0x00000000;
-    matrix->m[3][3] = 0x00000000;
-#else
     guMtxIdent(matrix);
-#endif
 
     gSPMatrix(gDisplayListHead++, VIRTUAL_TO_PHYSICAL(matrix), G_MTX_MODELVIEW | G_MTX_LOAD | G_MTX_NOPUSH);
     gSPMatrix(gDisplayListHead++, VIRTUAL_TO_PHYSICAL(matrix), G_MTX_PROJECTION | G_MTX_LOAD | G_MTX_NOPUSH);
@@ -1214,11 +1192,6 @@ u32 ensure_nonnegative(s16 value) {
     return value;
 }
 
-#if defined(VERSION_EU) && !defined(NON_MATCHING)
-// TODO: EU is not quite matching
-void handle_dialog_text_and_pages(s8 colorMode, struct DialogEntry *dialog, s8 lowerBound);
-GLOBAL_ASM("asm/non_matchings/handle_dialog_text_and_pages_eu.s")
-#else
 #ifdef VERSION_JP
 void handle_dialog_text_and_pages(s8 colorMode, struct DialogEntry *dialog)
 #else
@@ -1484,7 +1457,6 @@ void handle_dialog_text_and_pages(s8 colorMode, struct DialogEntry *dialog, s8 l
 
     gLastDialogLineNum = lineNum;
 }
-#endif
 
 #ifdef VERSION_JP
 #define X_VAL4_1 50
@@ -1821,25 +1793,13 @@ void render_dialog_entries(void) {
     render_dialog_box_type(dialog, dialog->linesPerBox);
 
     gDPSetScissor(gDisplayListHead++, G_SC_NON_INTERLACE,
-#ifdef TARGET_N64
-                  ensure_nonnegative(dialog->leftOffset),
-#else
                   0,
-#endif
                   ensure_nonnegative(DIAG_VAL2 - dialog->width),
 #ifdef VERSION_EU
-#ifdef TARGET_N64
-                  ensure_nonnegative(dialog->leftOffset + DIAG_VAL3 / gDialogBoxScale),
-#else
                   SCREEN_WIDTH,
-#endif
                   ensure_nonnegative((240 - dialog->width) + ((dialog->linesPerBox * 80) / DIAG_VAL4) / gDialogBoxScale));
 #else
-#ifdef TARGET_N64
-                  ensure_nonnegative(DIAG_VAL3 + dialog->leftOffset),
-#else
                   SCREEN_WIDTH,
-#endif
                   ensure_nonnegative(240 + ((dialog->linesPerBox * 80) / DIAG_VAL4) - dialog->width));
 #endif
 #ifdef VERSION_JP
@@ -2142,12 +2102,8 @@ void shade_screen(void) {
 
     // This is a bit weird. It reuses the dialog text box (width 130, height -80),
     // so scale to at least fit the screen.
-#ifdef TARGET_N64
-    create_dl_scale_matrix(MENU_MTX_NOPUSH, 2.6f, 3.4f, 1.0f);
-#else
     create_dl_scale_matrix(MENU_MTX_NOPUSH,
                            GFX_DIMENSIONS_ASPECT_RATIO * SCREEN_HEIGHT / 130.0f, 3.0f, 1.0f);
-#endif
 
     gDPSetEnvColor(gDisplayListHead++, 0, 0, 0, 110);
     gSPDisplayList(gDisplayListHead++, dl_draw_text_bg_box);

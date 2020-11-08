@@ -286,7 +286,6 @@ static void unused_80317844(void) {
     // and down by 8.
 }
 
-#ifdef NON_MATCHING
 void patch_audio_bank(struct AudioBank *mem, u8 *offset, u32 numInstruments, u32 numDrums) {
     // Make pointers into real pointers rather than indices
     struct Instrument *instrument;
@@ -391,10 +390,6 @@ void patch_audio_bank(struct AudioBank *mem, u8 *offset, u32 numInstruments, u32
     }
 #undef INIT_SOUND
 }
-
-#else
-GLOBAL_ASM("asm/non_matchings/patch_audio_bank.s")
-#endif
 
 struct AudioBank *bank_load_immediate(s32 bankId, s32 arg1) {
     UNUSED u32 pad1[4];
@@ -691,16 +686,6 @@ void audio_init() {
     for (i = 0; i <= lim2 / 8 - 1; i++) {
         ((u64 *) gAudioHeap)[i] = 0;
     }
-
-#ifndef AVOID_UB
-    i = 0;
-    lim3 = ((uintptr_t) &gAudioGlobalsEndMarker - (uintptr_t) &gAudioGlobalsStartMarker) / 8;
-    ptr64 = &gAudioGlobalsStartMarker - 1;
-    for (k = lim3; k >= 0; k--) {
-        i++;
-        ptr64[i] = 0;
-    }
-#endif
 
     for (i = 0; i < NUMAIBUFFERS; i++) {
         gAiBufferLengths[i] = 0x00a0;
