@@ -143,11 +143,7 @@ Gfx *Geo18_8029D924(s32 run, struct GraphNode *node, UNUSED void *context) {
  * executor passes the 3rd argument to a function that doesn't declare it. This is
  * undefined behavior, but harmless in practice due to the o32 calling convention.
  */
-#ifdef AVOID_UB
 Gfx *geo_switch_anim_state(s32 run, struct GraphNode *node, UNUSED void *context) {
-#else
-Gfx *geo_switch_anim_state(s32 run, struct GraphNode *node) {
-#endif
     struct Object *obj;
     struct GraphNodeSwitchCase *switchCase;
 
@@ -176,11 +172,7 @@ Gfx *geo_switch_anim_state(s32 run, struct GraphNode *node) {
 }
 
 //! @bug Same issue as geo_switch_anim_state.
-#ifdef AVOID_UB
 Gfx *geo_switch_area(s32 run, struct GraphNode *node, UNUSED void *context) {
-#else
-Gfx *geo_switch_area(s32 run, struct GraphNode *node) {
-#endif
     s16 sp26;
     struct Surface *sp20;
     UNUSED struct Object *sp1C =

@@ -300,7 +300,6 @@ u16 m64_read_compressed_u16(struct M64ScriptState *state) {
     return ret;
 }
 
-#ifdef NON_MATCHING
 void seq_channel_layer_process_script(struct SequenceChannelLayer *layer) {
     struct SequencePlayer *seqPlayer;   // sp5C, t4
     struct SequenceChannel *seqChannel; // sp58, t5
@@ -779,12 +778,6 @@ void seq_channel_layer_process_script(struct SequenceChannelLayer *layer) {
     }
 }
 
-#elif defined(VERSION_JP)
-GLOBAL_ASM("asm/non_matchings/seq_channel_layer_process_script_jp.s")
-#else
-GLOBAL_ASM("asm/non_matchings/seq_channel_layer_process_script_us.s")
-#endif
-
 u8 get_instrument(struct SequenceChannel *seqChannel, u8 instId, struct Instrument **instOut,
                   struct AdsrSettings *adsr) {
     struct Instrument *inst;
@@ -851,7 +844,6 @@ void sequence_channel_set_volume(struct SequenceChannel *seqChannel, u8 volume) 
     seqChannel->volume = FLOAT_CAST(volume) / US_FLOAT(127.0);
 }
 
-#ifdef NON_MATCHING
 void sequence_channel_process_script(struct SequenceChannel *seqChannel) {
     u16 sp5A;
     s8 value; // sp53
@@ -1219,12 +1211,6 @@ void sequence_channel_process_script(struct SequenceChannel *seqChannel) {
     }
 }
 
-#elif defined(VERSION_JP)
-GLOBAL_ASM("asm/non_matchings/sequence_channel_process_script_jp.s")
-#else
-GLOBAL_ASM("asm/non_matchings/sequence_channel_process_script_us.s")
-#endif
-
 void sequence_player_process_sequence(struct SequencePlayer *seqPlayer) {
     u8 cmd;
     u8 loBits;
@@ -1566,11 +1552,7 @@ void init_sequence_players(void) {
         // @bug Size of wrong array. Zeroes out second half of gSequenceChannels[0],
         // all of gSequenceChannels[1..31], and part of gSequenceLayers[0].
         // However, this is only called at startup, so it's harmless.
-#ifdef AVOID_UB
 #define LAYERS_SIZE LAYERS_MAX
-#else
-#define LAYERS_SIZE ARRAY_COUNT(gSequenceLayers)
-#endif
         for (j = 0; j < LAYERS_SIZE; j++) {
             gSequenceChannels[i].layers[j] = NULL;
         }

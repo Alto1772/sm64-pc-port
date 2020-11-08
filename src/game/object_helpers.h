@@ -166,13 +166,8 @@ extern s8 dddStatus;
 
 extern Gfx *Geo18_8029D890(s32 run, UNUSED struct GraphNode *node, f32 mtx[4][4]);
 extern Gfx *Geo18_8029D924(s32 run, struct GraphNode *node, UNUSED void *context);
-#ifdef AVOID_UB
 extern Gfx *geo_switch_anim_state(s32 run, struct GraphNode *node, void *context);
 extern Gfx *geo_switch_area(s32 run, struct GraphNode *node, void *context);
-#else
-extern Gfx *geo_switch_anim_state(s32 run, struct GraphNode *node);
-extern Gfx *geo_switch_area(s32 run, struct GraphNode *node);
-#endif
 extern void func_8029D558(Mat4, struct Object *);
 void apply_object_scale_to_matrix(struct Object *, Mat4, Mat4);
 extern void func_8029D704(Mat4,Mat4,Mat4);

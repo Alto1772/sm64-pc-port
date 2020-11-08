@@ -177,7 +177,6 @@ void temporary_pools_init(struct PoolSplit *a) {
 static void unused_803163D4() {
 }
 
-#ifdef NON_MATCHING
 void *alloc_bank_or_seq(struct SoundMultiPool *arg0, s32 arg1, s32 size, s32 arg3, s32 id) {
     // arg3 = 0, 1 or 2?
 
@@ -328,10 +327,6 @@ void *alloc_bank_or_seq(struct SoundMultiPool *arg0, s32 arg1, s32 size, s32 arg
     persistent->numEntries++;
     return persistent->entries[persistent->numEntries - 1].ptr;
 }
-
-#else
-GLOBAL_ASM("asm/non_matchings/alloc_bank_or_seq.s")
-#endif
 
 void *get_bank_or_seq(struct SoundMultiPool *arg0, s32 arg1, s32 id) {
     u32 i;

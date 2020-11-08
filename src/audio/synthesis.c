@@ -244,7 +244,6 @@ u64 *synthesis_do_one_audio_update(u16 *aiBuf, s32 bufLen, u64 *cmd, u32 updateI
     return cmd;
 }
 
-#ifdef NON_MATCHING
 u64 *synthesis_process_notes(u16 *aiBuf, s32 bufLen, u64 *cmd) {
     s32 noteIndex;                           // sp174
     struct Note *note;                       // s7
@@ -568,12 +567,6 @@ u64 *synthesis_process_notes(u16 *aiBuf, s32 bufLen, u64 *cmd) {
     aSaveBuffer(cmd++, VIRTUAL_TO_PHYSICAL2(aiBuf));
     return cmd;
 }
-
-#elif defined(VERSION_JP)
-GLOBAL_ASM("asm/non_matchings/synthesis_process_notes_jp.s")
-#else
-GLOBAL_ASM("asm/non_matchings/synthesis_process_notes_us.s")
-#endif
 
 u64 *load_wave_samples(u64 *cmd, struct Note *note, s32 nSamplesToLoad) {
     s32 a3;

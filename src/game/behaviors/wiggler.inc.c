@@ -399,10 +399,8 @@ void bhv_wiggler_update(void) {
     // PARTIAL_UPDATE
 
     if (o->oAction == WIGGLER_ACT_UNINITIALIZED) {
-#ifdef AVOID_UB
         // See comment in wiggler_act_walk
         o->oHealth = 4;
-#endif
         wiggler_init_segments();
     } else {
         if (o->oAction == WIGGLER_ACT_FALL_THROUGH_FLOOR) {

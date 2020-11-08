@@ -1192,11 +1192,6 @@ u32 ensure_nonnegative(s16 value) {
     return value;
 }
 
-#if defined(VERSION_EU) && !defined(NON_MATCHING)
-// TODO: EU is not quite matching
-void handle_dialog_text_and_pages(s8 colorMode, struct DialogEntry *dialog, s8 lowerBound);
-GLOBAL_ASM("asm/non_matchings/handle_dialog_text_and_pages_eu.s")
-#else
 #ifdef VERSION_JP
 void handle_dialog_text_and_pages(s8 colorMode, struct DialogEntry *dialog)
 #else
@@ -1462,7 +1457,6 @@ void handle_dialog_text_and_pages(s8 colorMode, struct DialogEntry *dialog, s8 l
 
     gLastDialogLineNum = lineNum;
 }
-#endif
 
 #ifdef VERSION_JP
 #define X_VAL4_1 50

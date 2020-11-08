@@ -1215,8 +1215,6 @@ void func_8031F96C(u8 player) {
     }
 }
 
-#ifdef NON_MATCHING
-
 void process_level_music_dynamics(void) {
     s32 conditionBits;      // s0
     u8 musicDynIndex;       // sp57 87
@@ -1344,10 +1342,6 @@ void process_level_music_dynamics(void) {
         sCurrentMusicDynamic = musicDynIndex;
     }
 }
-
-#else
-GLOBAL_ASM("asm/non_matchings/process_level_music_dynamics.s")
-#endif
 
 void unused_8031FED0(u8 player, u32 bits, s8 arg2) {
     u8 i;

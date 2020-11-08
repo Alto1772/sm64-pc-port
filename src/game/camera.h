@@ -343,11 +343,7 @@ struct HandheldShakePoint
 // actually return a value. This causes undefined behavior, which we'd rather
 // avoid on modern GCC. Hence, typedef. Interestingly, the void vs s32
 // difference doesn't affect -g codegen, only -O2.
-#ifdef AVOID_UB
 typedef void CmdRet;
-#else
-typedef s32 CmdRet;
-#endif
 
 // These are the same type, but the name that is used depends on context.
 /**

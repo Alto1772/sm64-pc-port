@@ -125,9 +125,7 @@ void remove_all_memtrackers(void) {
         sMemTrackers[i].total = 0.0f;
     }
 
-#ifdef AVOID_UB
     sNumActiveMemTrackers = 0;
-#endif
 }
 
 /* 23AE20 -> 23AE44; orig name: func_8018C650 */

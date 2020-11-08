@@ -2226,9 +2226,7 @@ s32 lvl_init_menu_values_and_cursor_pos(UNUSED s32 arg, UNUSED s32 unused) {
     sSoundMode = save_file_get_sound_mode();
 
     //! no return value
-#ifdef AVOID_UB
     return 0;
-#endif
 }
 
 /**
