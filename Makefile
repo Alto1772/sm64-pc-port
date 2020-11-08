@@ -188,58 +188,6 @@ ifeq ($(WINDOWS_BUILD),0)
   CXX_FILES :=
 endif
 
-ULTRA_C_FILES_SKIP := \
-    sqrtf.c \
-    string.c \
-    sprintf.c \
-    _Printf.c \
-    kdebugserver.c \
-    osInitialize.c \
-    osCreateThread.c \
-    osDestroyThread.c \
-    osStartThread.c \
-    osSetThreadPri.c \
-    osPiStartDma.c \
-    osPiRawStartDma.c \
-    osPiRawReadIo.c \
-    osPiGetCmdQueue.c \
-    osJamMesg.c \
-    osSendMesg.c \
-    osRecvMesg.c \
-    osSetEventMesg.c \
-    osTimer.c \
-    osSetTimer.c \
-    osSetTime.c \
-    osCreateViManager.c \
-    osViSetSpecialFeatures.c \
-    osVirtualToPhysical.c \
-    osViBlack.c \
-    osViSetEvent.c \
-    osViSetMode.c \
-    osViSwapBuffer.c \
-    osSpTaskLoadGo.c \
-    osCreatePiManager.c \
-    osGetTime.c \
-    osEepromProbe.c \
-    osEepromWrite.c \
-    osEepromLongWrite.c \
-    osEepromRead.c \
-    osEepromLongRead.c \
-    osContInit.c \
-    osContStartReadData.c \
-    osAiGetLength.c \
-    osAiSetFrequency.c \
-    osAiSetNextBuffer.c \
-    __osViInit.c \
-    __osSyncPutChars.c \
-    __osAtomicDec.c \
-    __osSiRawStartDma.c \
-    __osViSwapContext.c \
-    __osViGetCurrentContext.c
-
-C_FILES := $(filter-out src/game/main.c,$(C_FILES))
-ULTRA_C_FILES := $(filter-out $(addprefix lib/src/,$(ULTRA_C_FILES_SKIP)),$(ULTRA_C_FILES))
-
 SOUND_BANK_FILES := $(wildcard sound/sound_banks/*.json)
 SOUND_SEQUENCE_FILES := $(wildcard sound/sequences/$(VERSION)/*.m64) \
     $(wildcard sound/sequences/*.m64) \
