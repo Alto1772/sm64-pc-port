@@ -1,15 +1,10 @@
 #ifndef SEGMENT_SYMBOLS_H
 #define SEGMENT_SYMBOLS_H
 
-#ifdef TARGET_N64
-#define DECLARE_SEGMENT(name) \
-    extern u8 _##name##SegmentRomStart[]; \
-    extern u8 _##name##SegmentRomEnd[];
-#else
+// non n64 here
 #define DECLARE_SEGMENT(name) \
     static u8 _##name##SegmentRomStart[1]; \
     static u8 _##name##SegmentRomEnd[1];
-#endif
 
 #define DECLARE_ACTOR_SEGMENT(name) \
     DECLARE_SEGMENT(name##_mio0) \
@@ -43,11 +38,8 @@ DECLARE_ACTOR_SEGMENT(group17)
 DECLARE_SEGMENT(behavior)
 DECLARE_SEGMENT(scripts)
 DECLARE_SEGMENT(goddard)
-#ifdef TARGET_N64
-extern u8 _goddardSegmentStart[];
-#else
+// non n64 here
 static u8 _goddardSegmentStart[1];
-#endif
 
 DECLARE_LEVEL_SEGMENT(menu)
 DECLARE_LEVEL_SEGMENT(intro)

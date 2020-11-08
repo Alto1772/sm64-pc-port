@@ -780,7 +780,6 @@ void reset_painting(struct Painting *painting) {
     painting->currMarioUnderPainting = 0;
     painting->marioNewlyUnderPainting = 0;
     ripplingPainting = NULL;
-#ifndef TARGET_N64
     // Make sure all variables are reset correctly.
     // On N64 the segments that contain the relevant
     // Painting structs are reloaded from ROM upon level load.
@@ -797,7 +796,6 @@ void reset_painting(struct Painting *painting) {
         // that moves the painting stops during level unload.
         painting->vXPos = 3456.0f;
     }
-#endif
 }
 
 void update_ddd_painting(struct Painting *painting, float frontPos, float backPos,
